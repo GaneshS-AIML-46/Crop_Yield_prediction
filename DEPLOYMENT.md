@@ -2,7 +2,7 @@
 
 **Internship Project** — Made by Ganesh S
 
-This guide walks you through deploying the Crop Yield Prediction app: Backend on Render.com and Frontend on Netlify.
+This guide walks you through deploying the Crop Yield Prediction app: **Backend on Render.com** and **Frontend on GitHub Pages**.
 
 ---
 
@@ -10,7 +10,6 @@ This guide walks you through deploying the Crop Yield Prediction app: Backend on
 
 - [ ] GitHub account ([github.com](https://github.com))
 - [ ] Render account ([render.com](https://render.com)) — sign up with GitHub
-- [ ] Netlify account ([netlify.com](https://netlify.com)) — sign up with GitHub
 - [ ] Git installed on your computer
 - [ ] Project already trained (models saved in `models/` folder)
 
@@ -35,6 +34,7 @@ Create `d:\cropYeild\.gitignore` with:
 
 ```
 venv/
+.venv/
 __pycache__/
 *.pyc
 .env
@@ -107,9 +107,9 @@ Enter your GitHub username and password (or Personal Access Token if 2FA is enab
 
 1. Click **Create Web Service**
 2. Wait 2–5 minutes for the first build
-3. When done, you’ll see a URL like: `https://crop-yield-api-xxxx.onrender.com`
+3. When done, you'll see a URL like: `https://crop-yield-api-xxxx.onrender.com`
 4. Click the URL and add `/health` — you should see: `{"status":"ok",...}`
-5. **Copy this URL** — you’ll use it for the frontend (e.g. `https://crop-yield-api-xxxx.onrender.com`)
+5. **Copy this URL** — you'll use it for the frontend
 
 ---
 
@@ -130,6 +130,7 @@ Enter your GitHub username and password (or Personal Access Token if 2FA is enab
    - `crop_encoder.pkl`
    - `state_encoder.pkl`
    - `feature_names.json`
+   - `model_config.json`
 
 2. If missing, run locally first:
    ```bash
@@ -147,7 +148,7 @@ Enter your GitHub username and password (or Personal Access Token if 2FA is enab
 
 ---
 
-# Part B: Deploy Frontend on GitHub Pages (Recommended)
+# Part B: Deploy Frontend on GitHub Pages
 
 ## Step 4: Update API URL in Frontend
 
@@ -194,94 +195,12 @@ Local development still uses `http://localhost:8000` automatically.
 
 ---
 
-# Part C: Deploy Frontend on Netlify (Alternative)
-
-## Step 4 (Netlify): Update API URL
-
-Same as Part B — edit `frontend/config.js` with your Render URL.
-
-## Step 5 (Netlify): Deploy on Netlify
-
-### 5.1 Log in to Netlify
-
-1. Go to [netlify.com](https://netlify.com)
-2. Click **Sign up** or **Log in** → **Log in with GitHub**
-3. Authorize Netlify to access your GitHub account
-
-### 5.2 Add new site
-
-1. Click **Add new site** → **Import an existing project**
-2. Click **Deploy with GitHub**
-3. Choose **GitHub** if asked for a provider
-4. Authorize Netlify if prompted
-5. You’ll see a list of your repositories
-
-### 5.3 Select your repository
-
-1. Find `crop-yield-prediction` (or your repo name)
-2. Click **Select** or **Import**
-
-### 5.4 Configure build settings
-
-| Setting | Value |
-|---------|-------|
-| **Branch to deploy** | `main` |
-| **Build command** | Leave empty (or type: `echo "Static site"`) |
-| **Publish directory** | `frontend` |
-
-⚠️ **Important:** `Publish directory` must be exactly `frontend` (the folder containing index.html).
-
-### 5.5 Deploy
-
-1. Click **Deploy site**
-2. Wait 1–2 minutes
-3. When finished, you’ll see: **Site is live**
-4. Your URL will look like: `https://random-words-12345.netlify.app`
-5. Click the URL to open the app
-
----
-
-## Step 6: Test the Deployment
-
-### 6.1 Test frontend
-
-1. Open your Netlify URL
-2. Dropdowns for Crop and State should load (from API)
-3. Fill the form and click **Predict Yield**
-4. On the first request, wait 30–60 seconds (Render free tier cold start)
-5. You should see the predicted yield
-
-### 6.2 If API calls fail
-
-1. Open browser Developer Tools (F12) → Network tab
-2. Reload and submit again
-3. Check for CORS or 404 errors
-4. Ensure `API_BASE_URL` in `index.html` matches your Render URL exactly (no trailing slash)
-
----
-
-## Step 7: (Optional) Custom domain
-
-### 7.1 Change site name on Netlify
-
-1. Netlify dashboard → **Site settings** → **Change site name**
-2. Choose something like `crop-yield-ganesh` → Save
-3. New URL: `https://crop-yield-ganesh.netlify.app`
-
-### 7.2 Add your own domain (optional)
-
-1. **Site settings** → **Domain management** → **Add custom domain**
-2. Follow Netlify’s instructions to point your domain’s DNS to Netlify
-
----
-
 ## Quick reference: URLs
 
 | Service | URL example |
 |---------|-------------|
 | **Backend (Render)** | `https://crop-yield-api-xxxx.onrender.com` |
 | **Frontend (GitHub Pages)** | `https://YOUR_USERNAME.github.io/crop-yield-prediction/` |
-| **Frontend (Netlify)** | `https://your-site-name.netlify.app` |
 | **Health check** | `https://your-backend.onrender.com/health` |
 
 ---
@@ -296,17 +215,12 @@ Same as Part B — edit `frontend/config.js` with your Render URL.
 ### CORS errors in browser
 
 - Your FastAPI app already enables CORS (`allow_origins=["*"]`).
-- If issues persist, ensure you’re using the Netlify URL, not `file://`.
+- If issues persist, ensure you're using the GitHub Pages URL, not `file://`.
 
 ### 404 on API endpoints
 
 - Confirm the Render service is running.
 - Check Render logs for startup errors.
-
-### Build fails on Netlify
-
-- Ensure `Publish directory` is `frontend`.
-- Ensure `frontend/index.html` exists in the repo.
 
 ---
 

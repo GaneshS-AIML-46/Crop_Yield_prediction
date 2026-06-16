@@ -200,11 +200,7 @@ def main():
     with open(models_dir / "feature_names.json", "w") as f:
         json.dump(feature_cols, f, indent=2)
 
-    season_cols = [c for c in feature_cols if c.startswith("Season_")]
-    with open(models_dir / "season_columns.json", "w") as f:
-        json.dump(season_cols, f)
-
-    # NEW: save transform config so API knows to apply expm1
+    # Save transform config so API knows to apply expm1
     config = {
         "log_transform": True,
         "best_model": best_name,

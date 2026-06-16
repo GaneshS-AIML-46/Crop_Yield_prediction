@@ -70,12 +70,18 @@ cropYeild/
 ├── crop_yield.csv              # Raw dataset (~19k rows)
 ├── data/crop_yield_cleaned.csv
 ├── models/                     # LightGBM + encoders (~300 KB model)
-├── scripts/                    # Cleaning, features, training
+├── scripts/
+│   ├── data_cleaning.py
+│   ├── feature_engineering.py
+│   └── train_model.py
 ├── api/main.py                 # FastAPI backend
 ├── frontend/                   # GitHub Pages site
 │   ├── index.html
-│   └── config.js               # API URL (local vs production)
-├── render.yaml                 # Render.com deploy config
+│   └── config.js
+├── README.md
+├── DOCUMENTATION.md            # Tech stack & architecture
+├── DEPLOYMENT.md               # Deploy guide
+├── render.yaml
 └── requirements.txt
 ```
 
@@ -100,8 +106,7 @@ cropYeild/
 3. **GitHub Pages** — Settings → Pages → Branch `main`, folder `/frontend`
 4. **Update** `frontend/config.js` → set `PRODUCTION_API_URL` to your Render URL
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions.  
-Quick push guide: [GITHUB_PUSH.md](GITHUB_PUSH.md)
+See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions (GitHub, Render, GitHub Pages).
 
 ---
 

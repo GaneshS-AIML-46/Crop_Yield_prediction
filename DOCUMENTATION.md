@@ -375,7 +375,7 @@ The last 100 predictions (by input key) are cached in memory. This supports basi
 
 ### 8. Vanilla Frontend
 
-No React/Vue/Angular to keep dependencies minimal, build simple, and hosting straightforward on Netlify.
+No React/Vue/Angular to keep dependencies minimal, build simple, and hosting straightforward on GitHub Pages.
 
 ---
 
@@ -385,23 +385,24 @@ No React/Vue/Angular to keep dependencies minimal, build simple, and hosting str
 |------|---------|
 | `crop_yield.csv` | Raw dataset |
 | `data/crop_yield_cleaned.csv` | Cleaned dataset |
-| `scripts/01_data_inspection.py` | Initial inspection and anomaly checks |
 | `scripts/data_cleaning.py` | Cleaning pipeline (whitespace, nulls, outliers, duplicates, dtypes) |
 | `scripts/feature_engineering.py` | Encoding and engineered features |
 | `scripts/train_model.py` | Split, scale, train, evaluate, save artifacts |
-| `models/crop_yield_model.pkl` | Trained model |
+| `models/crop_yield_model.pkl` | Trained LightGBM model |
 | `models/scaler.pkl` | StandardScaler fitted on train |
 | `models/crop_encoder.pkl` | LabelEncoder for Crop |
 | `models/state_encoder.pkl` | LabelEncoder for State |
 | `models/feature_names.json` | Ordered feature names for preprocessing |
+| `models/model_config.json` | Log-transform and model metadata |
 | `api/main.py` | FastAPI app: load artifacts, preprocess, predict, CORS |
 | `frontend/index.html` | Single-page form UI and API calls |
+| `frontend/config.js` | API URL (local vs production) |
 | `requirements.txt` | Python dependencies |
 | `Procfile` | Render start command |
 | `render.yaml` | Render service config |
-| `netlify.toml` | Netlify publish directory |
 | `README.md` | Quick start and usage |
 | `DOCUMENTATION.md` | This technical documentation |
+| `DEPLOYMENT.md` | Step-by-step deploy guide |
 
 ---
 
