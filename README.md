@@ -100,7 +100,8 @@ cropYeild/
 3. **GitHub Pages** — Settings → Pages → Branch `main`, folder `/frontend`
 4. **Update** `frontend/config.js` → set `PRODUCTION_API_URL` to your Render URL
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions.  
+Quick push guide: [GITHUB_PUSH.md](GITHUB_PUSH.md)
 
 ---
 
