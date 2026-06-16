@@ -152,18 +152,18 @@ Enter your GitHub username and password (or Personal Access Token if 2FA is enab
 
 ## Step 4: Update API URL in Frontend
 
-The frontend uses [`frontend/config.js`](frontend/config.js) to switch between local and production API automatically.
+The frontend uses [`docs/config.js`](docs/config.js) to switch between local and production API automatically.
 
-### 4.1 Edit `frontend/config.js`
+### 4.1 Edit `docs/config.js`
 
-1. Open `frontend/config.js`
+1. Open `docs/config.js`
 2. After deploying backend on Render, set your Render URL:
    ```javascript
    const PRODUCTION_API_URL = 'https://crop-yield-api-xxxx.onrender.com';
    ```
 3. Save, commit, and push:
    ```bash
-   git add frontend/config.js
+   git add docs/config.js
    git commit -m "Update production API URL"
    git push
    ```
@@ -179,7 +179,7 @@ Local development still uses `http://localhost:8000` automatically.
 3. Under **Build and deployment**:
    - **Source:** Deploy from a branch
    - **Branch:** `main`
-   - **Folder:** `/frontend`
+   - **Folder:** `/docs`
 4. Click **Save**
 5. Wait 1–2 minutes for deployment
 6. Your live URL: `https://YOUR_USERNAME.github.io/REPO_NAME/`
@@ -210,7 +210,7 @@ Local development still uses `http://localhost:8000` automatically.
 ### "Could not load crops/states"
 
 - Backend may be starting (Render cold start). Wait 30–60 seconds and retry.
-- Check that `PRODUCTION_API_URL` in `frontend/config.js` is correct.
+- Check that `PRODUCTION_API_URL` in `docs/config.js` is correct.
 
 ### CORS errors in browser
 
@@ -229,6 +229,6 @@ Local development still uses `http://localhost:8000` automatically.
 - [ ] Push project to GitHub
 - [ ] Create Web Service on Render
 - [ ] Backend deployed and `/health` returns OK
-- [ ] Update `PRODUCTION_API_URL` in `frontend/config.js`
-- [ ] Enable GitHub Pages (branch `main`, folder `/frontend`)
+- [ ] Update `PRODUCTION_API_URL` in `docs/config.js`
+- [ ] Enable GitHub Pages (branch `main`, folder `/docs`)
 - [ ] Test predict flow on live site

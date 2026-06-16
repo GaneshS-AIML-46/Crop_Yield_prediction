@@ -57,7 +57,7 @@ python scripts/train_model.py
 
 uvicorn api.main:app --reload --host 0.0.0.0
 # In another terminal:
-python -m http.server 3000 -d frontend
+python -m http.server 3000 -d docs
 # Open http://localhost:3000
 ```
 
@@ -75,7 +75,7 @@ cropYeild/
 │   ├── feature_engineering.py
 │   └── train_model.py
 ├── api/main.py                 # FastAPI backend
-├── frontend/                   # GitHub Pages site
+├── docs/                       # GitHub Pages site (Settings → Pages → /docs)
 │   ├── index.html
 │   └── config.js
 ├── README.md
@@ -103,8 +103,8 @@ cropYeild/
 
 1. **GitHub** — Push this repo (public)
 2. **Render** — Deploy backend from repo (`render.yaml` included)
-3. **GitHub Pages** — Settings → Pages → Branch `main`, folder `/frontend`
-4. **Update** `frontend/config.js` → set `PRODUCTION_API_URL` to your Render URL
+3. **GitHub Pages** — Settings → Pages → Branch `main`, folder **`/docs`**
+4. **Update** `docs/config.js` → set `PRODUCTION_API_URL` to your Render URL
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions (GitHub, Render, GitHub Pages).
 

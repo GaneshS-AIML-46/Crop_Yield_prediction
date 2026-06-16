@@ -1,5 +1,5 @@
 // Update PRODUCTION_API_URL after deploying backend to Render.com
-const PRODUCTION_API_URL = 'https://crop-yield-api.onrender.com';
+const PRODUCTION_API_URL = 'https://crop-yield-prediction-pj0y.onrender.com';
 
 const API_BASE_URL =
   window.location.hostname === 'localhost' ||

@@ -327,7 +327,7 @@ Output: `models/crop_yield_model.pkl`, plus scaler and encoders.
              ▼
   ┌─────────────────────┐     HTTP GET/POST      ┌─────────────────────┐
   │  FastAPI Backend    │◄──────────────────────►│  Frontend (HTML)    │
-  │  (api/main.py)      │                        │  (frontend/)        │
+  │  (api/main.py)      │                        │  (docs/)        │
   │  • /predict         │     JSON responses     │  • Form + Fetch     │
   │  • /crops, /states  │                        │  • Vanilla JS       │
   │  • /health          │                        └──────────┬──────────┘
@@ -395,8 +395,8 @@ No React/Vue/Angular to keep dependencies minimal, build simple, and hosting str
 | `models/feature_names.json` | Ordered feature names for preprocessing |
 | `models/model_config.json` | Log-transform and model metadata |
 | `api/main.py` | FastAPI app: load artifacts, preprocess, predict, CORS |
-| `frontend/index.html` | Single-page form UI and API calls |
-| `frontend/config.js` | API URL (local vs production) |
+| `docs/index.html` | Single-page form UI and API calls |
+| `docs/config.js` | API URL (local vs production) |
 | `requirements.txt` | Python dependencies |
 | `Procfile` | Render start command |
 | `render.yaml` | Render service config |
