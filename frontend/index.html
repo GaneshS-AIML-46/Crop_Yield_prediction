@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#2d5a27">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <title>Crop Yield Predictor</title>
+  <style>
+    :root {
+      --bg-primary: #f5f7f0;
+      --bg-card: #ffffff;
+      --accent: #2d5a27;
+      --accent-light: #4a7c43;
+      --accent-dark: #1e3d1a;
+      --text: #1a1a1a;
+      --text-muted: #5a5a5a;
+      --border: #c5d4be;
+      --success: #2d5a27;
+      --gauge-fill: #5a9c4a;
+      --touch-min: 44px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      min-height: 100%;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: clamp(1rem, 4vw, 2rem) clamp(1rem, 4vw, 1.5rem);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 1.75rem);
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+    .subtitle { color: var(--text-muted); font-size: clamp(0.85rem, 2.5vw, 0.9rem); margin-top: 0.25rem; }
+    .card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 0.75rem 0.875rem;
+      min-height: var(--touch-min);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235a5a5a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(45,90,39,0.2);
+    }
+    button {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      min-height: var(--touch-min);
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    button:hover { background: var(--accent-light); }
+    button:disabled {
+      background: var(--text-muted);
+      cursor: not-allowed;
+    }
+    .note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+    .result-card {
+      display: none;
+      text-align: center;
+    }
+    .result-card.visible { display: block; }
+    .result-value {
+      font-size: clamp(1.75rem, 6vw, 2rem);
+      font-weight: 700;
+      color: var(--success);
+      margin: 0.5rem 0;
+    }
+    .result-unit { font-size: 0.9rem; color: var(--text-muted); }
+    .gauge {
+      height: 12px;
+      background: var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1rem 0;
+      max-width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .gauge-fill {
+      height: 100%;
+      background: var(--gauge-fill);
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+    .error {
+      background: #fce8e8;
+      color: #c53030;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .error.visible { display: block; }
+    .summary-table {
+      width: 100%;
+      font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+      margin-top: 1rem;
+    }
+    .summary-table td { padding: 0.5rem 0.5rem 0.5rem 0; }
+    .summary-table td:first-child { color: var(--text-muted); }
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .footer p { margin: 0.2rem 0; }
+    @media (max-width: 480px) {
+      .card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌾 Crop Yield Predictor</h1>
+      <p class="subtitle">Predict yield in tons/hectare from area, rainfall & inputs</p>
+    </header>
+
+    <div class="card">
+      <div class="error" id="error"></div>
+      <form id="predictForm">
+        <div class="form-group">
+          <label for="crop">Crop</label>
+          <select id="crop" required></select>
+        </div>
+        <div class="form-group">
+          <label for="season">Season</label>
+          <select id="season" required>
+            <option value="">Select season</option>
+            <option value="Autumn">Autumn</option>
+            <option value="Kharif">Kharif</option>
+            <option value="Rabi">Rabi</option>
+            <option value="Summer">Summer</option>
+            <option value="Whole Year">Whole Year</option>
+            <option value="Winter">Winter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <select id="state" required></select>
+        </div>
+        <div class="form-group">
+          <label for="crop_year">Crop Year</label>
+          <input type="number" id="crop_year" min="1990" max="2030" value="2020" required>
+        </div>
+        <div class="form-group">
+          <label for="area">Area (hectares)</label>
+          <input type="number" id="area" min="0.1" step="0.1" value="1000" required>
+        </div>
+        <div class="form-group">
+          <label for="annual_rainfall">Annual Rainfall (mm)</label>
+          <input type="number" id="annual_rainfall" min="0" step="1" value="1200" required>
+        </div>
+        <div class="form-group">
+          <label for="fertilizer">Fertilizer (kg)</label>
+          <input type="number" id="fertilizer" min="0" step="1" value="50000" required>
+        </div>
+        <div class="form-group">
+          <label for="pesticide">Pesticide (kg)</label>
+          <input type="number" id="pesticide" min="0" step="0.1" value="1000" required>
+        </div>
+        <button type="submit" id="submitBtn">
+          Predict Yield
+        </button>
+        <p class="note">First prediction may take 30-60 seconds (free tier cold start).</p>
+      </form>
+    </div>
+
+    <div class="card result-card" id="resultCard">
+      <h3>Predicted Yield</h3>
+      <div class="result-value" id="resultValue">--</div>
+      <div class="result-unit" id="resultUnit">tons/hectare</div>
+      <div class="gauge">
+        <div class="gauge-fill" id="gaugeFill" style="width: 0%"></div>
+      </div>
+      <table class="summary-table" id="summaryTable"></table>
+    </div>
+
+    <footer class="footer">
+      <p>Internship Project</p>
+      <p>Made by Ganesh S</p>
+    </footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    function showError(msg) {
+      const el = document.getElementById('error');
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+    function hideError() {
+      document.getElementById('error').classList.remove('visible');
+    }
+
+    async function loadOptions() {
+      try {
+        const [cropsRes, statesRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/crops`),
+          fetch(`${API_BASE_URL}/states`)
+        ]);
+        if (!cropsRes.ok || !statesRes.ok) throw new Error('Could not load options');
+        const crops = await cropsRes.json();
+        const states = await statesRes.json();
+        const cropSel = document.getElementById('crop');
+        const stateSel = document.getElementById('state');
+        cropSel.innerHTML = '<option value="">Select crop</option>' + crops.crops.map(c => `<option value="${c}">${c}</option>`).join('');
+        stateSel.innerHTML = '<option value="">Select state</option>' + states.states.map(s => `<option value="${s}">${s}</option>`).join('');
+      } catch (e) {
+        showError('Could not load crops/states. Is the API running? Start with: uvicorn api.main:app --reload');
+      }
+    }
+
+    document.getElementById('predictForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Predicting...';
+
+      const payload = {
+        crop: document.getElementById('crop').value,
+        season: document.getElementById('season').value,
+        state: document.getElementById('state').value,
+        crop_year: parseInt(document.getElementById('crop_year').value),
+        area: parseFloat(document.getElementById('area').value),
+        annual_rainfall: parseFloat(document.getElementById('annual_rainfall').value),
+        fertilizer: parseFloat(document.getElementById('fertilizer').value),
+        pesticide: parseFloat(document.getElementById('pesticide').value)
+      };
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/predict`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || 'Prediction failed');
+        }
+        const val = data.predicted_yield;
+        document.getElementById('resultValue').textContent = val.toFixed(2);
+        const pct = Math.min(100, (val / 10) * 100);
+        document.getElementById('gaugeFill').style.width = pct + '%';
+        const tbl = document.getElementById('summaryTable');
+        tbl.innerHTML = Object.entries(payload).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+        document.getElementById('resultCard').classList.add('visible');
+      } catch (err) {
+        showError(err.message || 'Prediction failed. Ensure the API is running.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Predict Yield';
+      }
+    });
+
+    loadOptions();
+  </script>
+</body>
+</html>

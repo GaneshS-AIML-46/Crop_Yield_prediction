@@ -1,0 +1,18 @@
+[
+  "Crop_Year",
+  "Area",
+  "Annual_Rainfall",
+  "Fertilizer",
+  "Pesticide",
+  "Crop_encoded",
+  "State_encoded",
+  "Season_Autumn",
+  "Season_Kharif",
+  "Season_Rabi",
+  "Season_Summer",
+  "Season_Whole Year",
+  "Season_Winter",
+  "Fertilizer_per_Area",
+  "Pesticide_per_Area",
+  "Rainfall_Fertilizer_Ratio"
+]

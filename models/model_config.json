@@ -1,0 +1,7 @@
+{
+  "log_transform": true,
+  "best_model": "LightGBM",
+  "test_r2_log": 0.9277,
+  "test_r2_original": 0.8557,
+  "within_20pct": 38.9
+}
